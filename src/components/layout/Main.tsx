@@ -4,10 +4,15 @@ import Footer from "../ui/Footer";
 
 
 const Main = () => {
+    
+      
     return (
-        <div >
+        <div  >
             <Navbar></Navbar>
+            <div className="min-h-dvh ">
             <Outlet></Outlet>
+            </div>
+           
             <Footer></Footer>
         </div>
     );
