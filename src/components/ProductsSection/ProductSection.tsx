@@ -2,59 +2,12 @@ import React, { useState, FormEvent } from "react";
 import Container from "../ui/Container";
 import SVGBackground from "../ui/SVGBackground";
 import Select from "react-select";
-import { StylesConfig } from "react-select";
+
 import { useNavigate } from "react-router-dom";
+import { customStyles, options, OptionType } from "../../utils/ProductSearchUtils/ProductSearchUtils";
 
-// Define the type for options
-interface OptionType {
-  value: string;
-  label: string;
-}
 
-// Custom styles for react-select
-const customStyles: StylesConfig<OptionType, false> = {
-  control: (provided) => ({
-    ...provided,
-    backgroundColor: "transparent",
-    borderColor: "#d1d5db",
-    borderRadius: "0.375rem",
-    padding: "0.5rem",
-    boxShadow: "none",
-    "&:hover": {
-      borderColor: "#046425",
-    },
-  }),
-  menu: (provided) => ({
-    ...provided,
-    backgroundColor: "#000",
-    borderRadius: "0.375rem",
-    boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)",
-  }),
-  menuList: (provided) => ({
-    ...provided,
-    padding: 0,
-  }),
-  option: (provided, state) => ({
-    ...provided,
-    backgroundColor: state.isSelected ? "#046425" : "#000",
-    color: "#fff",
-    cursor: "pointer",
-    "&:hover": {
-      backgroundColor: "#046425",
-    },
-  }),
-  singleValue: (provided) => ({
-    ...provided,
-    color: "#000",
-  }),
-};
 
-// Options for the select dropdown
-const options: OptionType[] = [
-  { value: "all", label: "All" },
-  { value: "option1", label: "Option1" },
-  { value: "option2", label: "Option2" },
-];
 
 const ProductSection = () => {
   const navigate = useNavigate();
@@ -62,11 +15,9 @@ const ProductSection = () => {
   const [selectedOption, setSelectedOption] = useState<OptionType | null>(null);
   const [searchTerm, setSearchTerm] = useState<string>("");
 
-  
   const handleSelectChange = (option: OptionType | null) => {
     setSelectedOption(option);
   };
-
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
@@ -75,11 +26,10 @@ const ProductSection = () => {
   // Handle form submission
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-   
+
     console.log("Selected Option:", selectedOption);
     console.log("Search Term:", searchTerm);
     navigate("/shop");
-    
   };
 
   return (
@@ -87,12 +37,12 @@ const ProductSection = () => {
       <SVGBackground />
       <Container>
         <div className="flex justify-center items-center mt-10 p-5">
-          <h1 className="text-xl md:text-2xl lg:text-7xl font-medium">
+          <h1 className="text-2xl md:text-5xl lg:text-7xl font-medium">
             What are you <span className="text-primary font-bold">looking</span>{" "}
             for?
           </h1>
         </div>
-        <div className="relative z-10 mx-auto mt-5 w-screen max-w-screen-md py-20 leading-6">
+        <div className="relative z-10 mx-auto lg:max-w-screen-md  pt-10 ">
           <form
             onSubmit={handleSubmit}
             className="relative flex w-full flex-col justify-between rounded-lg border p-2 sm:flex-row sm:items-center sm:p-0"
@@ -100,7 +50,7 @@ const ProductSection = () => {
             <div className="flex flex-col sm:flex-row sm:items-center w-full">
               <label
                 htmlFor="category"
-                className="flex-shrink-0 mb-4 sm:mb-0 sm:mr-4"
+                className="flex-shrink-0 mb-4 sm:mb-0 "
               >
                 <Select
                   id="category"
@@ -116,13 +66,13 @@ const ProductSection = () => {
                 name="search"
                 value={searchTerm}
                 onChange={handleInputChange}
-                className="mt-2 sm:mt-0 sm:ml-2 h-14 w-full bg-white cursor-text rounded-md border py-4 pl-6 outline-none ring-secondary sm:border-0 sm:pl-12 focus:ring"
+                className="mt-2 sm:mt-0 sm:ml-2 h-14  w-full bg-white cursor-text rounded-md border py-4 pl-6 outline-none ring-secondary sm:border-0  focus:ring"
                 placeholder="Search"
               />
             </div>
             <button
               type="submit"
-              className="mt-2 inline-flex h-12 w-full items-center justify-center rounded-md bg-primary px-10 text-center align-middle text-base font-medium text-white outline-none ring-emerald-200 ring-offset-1 sm:absolute sm:right-0 sm:mt-0 sm:mr-1 sm:w-32 focus:ring"
+              className="mt-2 inline-flex h-12 w-full items-center justify-center rounded-md bg-primary md:px-10 text-center align-middle text-base font-medium text-white outline-none ring-emerald-200 ring-offset-1 sm:absolute sm:right-0 sm:mt-0 sm:mr-1 sm:w-10 focus:ring"
             >
               Search
             </button>

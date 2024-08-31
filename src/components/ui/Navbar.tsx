@@ -24,7 +24,7 @@ const Navbar = () => {
         Home
       </NavLink>
       <NavLink
-        to="/products"
+        to="/shop"
         className={({ isActive, isPending }) =>
           isPending
             ? "pending"
@@ -33,7 +33,7 @@ const Navbar = () => {
             : "text-white font-bold hover:text-primary font-primary"
         }
       >
-        Products
+        Shop
       </NavLink>
       <NavLink
         to="/cart"
@@ -60,16 +60,16 @@ const Navbar = () => {
             alt="Leafix Logo"
           />
         </a>
-        <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+        <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse ">
           <button
             type="button"
-            className="btn btn-md text-white bg-primary hover:bg-green-800 focus:outline-none focus:ring-green-800 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-primary dark:hover:bg-green-800 dark:focus:ring-green-800"
+            className="btn btn-md text-white bg-primary hover:bg-green-800 focus:outline-none focus:ring-green-800 font-medium rounded-lg text-sm  py-2 text-center dark:bg-primary dark:hover:bg-green-800 dark:focus:ring-green-800 "
           >
             Manage Inventory
           </button>
           <button
             type="button"
-            className="inline-flex items-center p-2 w-10 h-10 bg-primary justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-primary focus:outline-none focus:ring-2   focus:ring-gray-600"
+            className="inline-flex items-center p-2  h-10 bg-primary justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-primary focus:outline-none focus:ring-2   focus:ring-gray-600"
             aria-controls="navbar-sticky"
             aria-expanded={isOpen}
             onClick={handleToggle}
