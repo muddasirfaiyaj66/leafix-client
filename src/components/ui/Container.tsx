@@ -5,7 +5,7 @@ type TContainerProps = {
 };
 
 const Container = ({ children }: TContainerProps) => {
-  return <div className="h-screen max-w-screen-xl mx-auto px-5 font-primary">{children}</div>;
+  return <div className=" max-w-screen-xl mx-auto px-5 font-primary">{children}</div>;
 };
 
 export default Container;

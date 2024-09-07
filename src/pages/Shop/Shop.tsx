@@ -31,13 +31,13 @@ const Shop = () => {
     navigate("/shop");
   };
   return (
-    <div className="mb-329">
+    <div className="">
         <Container>
      
-     <div className="pt-10 relative z-10 mx-auto lg:max-w-screen-md my-20 ">
+     <div className="pt-10  mx-auto lg:max-w-screen-md my-20 ">
        <form
          onSubmit={handleSubmit}
-         className="relative flex w-full flex-col justify-between rounded-lg border p-2 sm:flex-row sm:items-center sm:p-0"
+         className=" flex w-full flex-col justify-between rounded-lg border p-2 sm:flex-row sm:items-center sm:p-0"
        >
          <div className="flex flex-col sm:flex-row sm:items-center w-full">
            <label htmlFor="category" className="flex-shrink-0 mb-4 sm:mb-0 ">

@@ -3,6 +3,8 @@ import Main from "../components/layout/Main";
 import Home from "../pages/Home/Home";
 import Shop from "../pages/Shop/Shop";
 import Product from "../pages/Shop/Product";
+import Cart from "../pages/Shop/Cart";
+import InventoryManagement from "../pages/InventoryManagement/InventoryManagement";
 
 const router = createBrowserRouter([
   {
@@ -20,6 +22,14 @@ const router = createBrowserRouter([
       {
         path: "product/:id",
         element:<Product></Product>
+      },
+      {
+        path:'cart',
+        element:<Cart/>
+      },
+      {
+        path:'inventory-management',
+        element:<InventoryManagement/>
       }
     ],
   },

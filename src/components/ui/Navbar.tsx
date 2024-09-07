@@ -5,7 +5,8 @@ import { IoMdCart } from "react-icons/io";
 import { useAppSelector } from "../../redux/hooks";
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const totalCartItems = useAppSelector((state)=> state.cartItemReducer.total)
+  const totalCartItems = useAppSelector((state)=> state.cartItemReducer.products.length)
+ 
   
   const handleToggle = () => {
     setIsOpen(!isOpen);
@@ -38,7 +39,7 @@ const Navbar = () => {
         Shop
       </NavLink>
       <NavLink
-        to="/manage-inventory"
+        to="/inventory-management"
         className={({ isActive, isPending }) =>
           isPending
             ? "pending"
@@ -67,11 +68,11 @@ const Navbar = () => {
          
         <div className="relative ">
           <div>
-            <p className="text-white text-sm font-bold absolute ml-[6px] -mt-[3px]">{totalCartItems}</p>
+            <p className="text-white text-sm font-bold absolute ml-[6px] -mt-[8px]">{totalCartItems}</p>
           </div>
         <Link to='/cart'>
           <button  className="btn bg-transparent mr-2 border-none hover:bg-transparent">
-          <IoMdCart  className="text-white text-2xl"/>
+          <IoMdCart  className="text-white text-3xl"/>
           </button>
           </Link>
         </div>

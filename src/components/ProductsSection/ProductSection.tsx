@@ -1,13 +1,13 @@
 import React, { useState, FormEvent } from "react";
 import Container from "../ui/Container";
-import SVGBackground from "../ui/SVGBackground";
 import Select from "react-select";
 
 import { useNavigate } from "react-router-dom";
-import { customStyles, options, OptionType } from "../../utils/ProductSearchUtils/ProductSearchUtils";
-
-
-
+import {
+  customStyles,
+  options,
+  OptionType,
+} from "../../utils/ProductSearchUtils/ProductSearchUtils";
 
 const ProductSection = () => {
   const navigate = useNavigate();
@@ -33,8 +33,7 @@ const ProductSection = () => {
   };
 
   return (
-    <div className="relative">
-      <SVGBackground />
+    <div>
       <Container>
         <div className="flex justify-center items-center mt-10 p-5">
           <h1 className="text-2xl md:text-5xl lg:text-7xl font-medium">
@@ -48,10 +47,7 @@ const ProductSection = () => {
             className="relative flex w-full flex-col justify-between rounded-lg border p-2 sm:flex-row sm:items-center sm:p-0"
           >
             <div className="flex flex-col sm:flex-row sm:items-center w-full">
-              <label
-                htmlFor="category"
-                className="flex-shrink-0 mb-4 sm:mb-0 "
-              >
+              <label htmlFor="category" className="flex-shrink-0 mb-4 sm:mb-0 ">
                 <Select
                   id="category"
                   options={options}
