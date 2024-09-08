@@ -1,4 +1,5 @@
 import HeroSection from "../../components/HeroSection/HeroSection";
+import PopularCategories from "../../components/Home/popularCategory/PopularCategories";
 import ProductSection from "../../components/ProductsSection/ProductSection";
 
 
@@ -7,6 +8,7 @@ const Home = () => {
         <div className="min-h-screen ">
            <HeroSection></HeroSection>
            <ProductSection></ProductSection>
+           <PopularCategories/>
         </div>
     );
 };

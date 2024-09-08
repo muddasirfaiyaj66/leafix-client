@@ -1,0 +1,47 @@
+[
+    {
+        "id": 1,
+        "name": "Flower Plants",
+        "img": "https://nurseryplantsbd.com/wp-content/uploads/2022/02/Flower-Plants.webp"
+    },
+    {
+        "id": 2,
+        "name": "Fruits Plants",
+        "img": "https://nurseryplantsbd.com/wp-content/uploads/2022/02/Fruits-Plants.webp"
+    },
+    {
+        "id":3,
+        "name": "Bonsai Plants",
+        "img": "https://nurseryplantsbd.com/wp-content/uploads/2022/02/Bonsai-Plants.webp"
+    },
+    {
+        "id":4,
+        "name": "Bamboo Plants",
+        "img": "https://nurseryplantsbd.com/wp-content/uploads/2022/02/Bamboo-Plants.webp"
+    },
+    
+    {
+        "id":5,
+        "name": "Cactus Plants",
+        "img": "https://nurseryplantsbd.com/wp-content/uploads/2022/02/Cactus-Plants.webp"
+    },
+    {
+        "id":6,
+        "name": "Rose Plants",
+        "img": "https://nurseryplantsbd.com/wp-content/uploads/2022/02/Rose-Plants.webp"
+    },
+    {
+        "id":7,
+        "name": "Mango Plants",
+        "img": "https://nurseryplantsbd.com/wp-content/uploads/2022/02/Mango-Plants.webp"
+    },
+    {
+        "id":8,
+        "name": "Gardening Tools",
+        "img": "https://nurseryplantsbd.com/wp-content/uploads/2022/02/Gardening-Tools.webp"
+    }
+    
+
+
+
+]

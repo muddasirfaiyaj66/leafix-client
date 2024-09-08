@@ -1,4 +1,5 @@
 import Container from "../../components/ui/Container";
+import AddInventory from "./AddInventory";
 import ProductListCard from "./ProductListCard";
 
 const InventoryManagement = () => {
@@ -6,9 +7,15 @@ const InventoryManagement = () => {
     <div className="mt-28">
       <Container>
         <div className="flex justify-center ">
-          <button className="btn bg-primary hover:bg-green-600 text-white flex ">
+          <button  className="btn bg-primary hover:bg-green-600 text-white flex text-xl " onClick={()=>{
+            const dialog = document.getElementById('my_modal_2') as HTMLDialogElement;
+            dialog.showModal();
+          }}>
             Add Inventory
           </button>
+          <dialog id="my_modal_2" className="modal modal-bottom sm:modal-middle">
+              <AddInventory/>
+          </dialog>
         </div>
 
         <div className="overflow-x-auto mt-10 flex ">

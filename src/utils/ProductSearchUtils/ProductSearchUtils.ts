@@ -30,7 +30,7 @@ export const customStyles: StylesConfig<OptionType, false> = {
   }),
   option: (provided, state) => ({
     ...provided,
-    backgroundColor: state.isSelected ? "#046425" : "#000",
+    backgroundColor: state.isSelected ? "#046425" : "#353935",
     color: "#fff",
     cursor: "pointer",
     "&:hover": {
