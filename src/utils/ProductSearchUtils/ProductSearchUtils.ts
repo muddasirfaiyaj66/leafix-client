@@ -1,4 +1,5 @@
 import { StylesConfig } from "react-select";
+import { category } from "../../types/CategoryTpes";
 
 export interface OptionType {
   value: string;
@@ -42,8 +43,18 @@ export const customStyles: StylesConfig<OptionType, false> = {
     color: "#000",
   }),
 };
-export const options: OptionType[] = [
-  { value: "", label: "All" },
-  { value: "option1", label: "Option1" },
-  { value: "option2", label: "Option2" },
-];
+export const getCategoryOptions = (): OptionType[] => {
+  const baseOptions: OptionType[] = [{ value: "", label: "All" }];
+
+  const categoryOptions: OptionType[] = Object.entries(category).map(
+    ([key, value]) => ({
+      value: key,
+      label: value,
+    })
+  );
+
+  return [...baseOptions, ...categoryOptions];
+};
+
+
+export const options: OptionType[] = getCategoryOptions();

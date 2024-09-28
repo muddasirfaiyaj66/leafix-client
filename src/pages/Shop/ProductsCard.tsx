@@ -1,12 +1,15 @@
 import { Link } from "react-router-dom";
 
-const ProductsCard = () => {
+const ProductsCard = ({item}) => {
+  const { _id, title, category, image ,price,rating} = item;
+  console.log(item);
+  
   return (
     
     <div className="flex w-full h-[36rem] flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-lg">
       <div className="relative mx-4 mt-4 overflow-hidden text-white shadow-lg rounded-xl bg-blue-gray-500 bg-clip-border shadow-blue-gray-500/40">
         <img
-          src="https://i.postimg.cc/FRc7GBr5/133124.jpg"
+          src={image}
           className="w-full h-full object-cover"
         />
         <div className="absolute inset-0 w-full h-full to-bg-black-10 bg-gradient-to-tr from-transparent via-transparent to-black/60"></div>
@@ -14,7 +17,7 @@ const ProductsCard = () => {
       <div className="p-6">
         <div className="flex items-center justify-between mb-3">
           <h5 className="block font-sans text-xl antialiased font-medium leading-snug tracking-normal text-blue-gray-900">
-            Peace lily plant in a white pot
+           {title}
           </h5>
           <p className="flex items-center gap-1.5 font-sans text-base font-normal leading-relaxed text-blue-gray-900 antialiased">
             <svg
@@ -29,18 +32,18 @@ const ProductsCard = () => {
                 clipRule="evenodd"
               />
             </svg>
-            8.5
+          {rating}
           </p>
         </div>
         <p className="block  text-xl font-medium antialiased  leading-relaxed text-gray-700">
-          Category: Indoor Plants
+          Category: {category}
         </p>
         <p className="text-xl">
-          <span className="font-bold text-primary text-xl">Price: </span> 50 $
+          <span className="font-bold text-primary text-xl">Price: </span> {price} $
         </p>
       </div>
       <div className="p-6 pt-3">
-        <Link to="/product/5453">
+        <Link to={`/product/${_id}`}>
           <button
             className="block w-full select-none rounded-lg bg-black py-3.5 px-7 text-center align-middle font-sans text-sm font-bold uppercase text-white shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none hover:bg-primary hover:transition-all ease-in-out duration-300"
             type="button"

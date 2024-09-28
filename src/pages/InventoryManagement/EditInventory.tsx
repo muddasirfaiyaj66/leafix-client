@@ -1,83 +1,109 @@
 import axios from "axios";
-import { FormEvent } from "react";
+import { FormEvent, useEffect, useState } from "react";
+import { useGetProductByIdQuery, useUpdateProductMutation } from "../../redux/api/baseApi";
+import { toast } from "sonner";
+import { category } from "../../types/CategoryTpes";
+
+
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
 
-const EditInventory = (id:string) => {
+const EditInventory = ({ _id }: { _id: string }) => {
+  const { data, error, isLoading } = useGetProductByIdQuery(_id);
+  const [updateProduct, { isSuccess }] = useUpdateProductMutation();
+
+  const [defaultValues, setDefaultValues] = useState({
+    title: "",
+    category: "",
+    image: "",
+    price: 0,
+    rating: 0,
+    quantity: 0,
+    description: "",
+  });
+
+  useEffect(() => {
+    if (data) {
+      setDefaultValues({
+        title: data?.title || "",
+        category: data?.category || "",
+        image: data?.image || "",
+        price: data?.price || 0,
+        rating: data?.rating || 0,
+        quantity: data?.quantity || 0,
+        description: data?.description || "",
+      });
+    }
+  }, [data]);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setDefaultValues((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const { value } = e.target;
+    setDefaultValues((prev) => ({
+      ...prev,
+      category: value,
+    }));
+  };
+
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
     const form = event.currentTarget;
 
-    const title = (form.elements.namedItem("title") as HTMLInputElement).value;
-    const category = (form.elements.namedItem("category") as HTMLInputElement)
-      .value;
-    const image = (form.elements.namedItem("image") as HTMLInputElement)
-      .files?.[0];
-    const price = parseFloat(
-      (form.elements.namedItem("price") as HTMLInputElement).value
-    );
-    const rating = parseFloat(
-      (form.elements.namedItem("rating") as HTMLInputElement).value
-    );
-    const quantity = parseInt(
-      (form.elements.namedItem("quantity") as HTMLInputElement).value
-    );
-    const description = (
-      form.elements.namedItem("description") as HTMLInputElement
-    )?.value;
+    const image = (form.elements.namedItem("image") as HTMLInputElement).files?.[0];
 
-    if (!image) {
-      alert("Please upload an image.");
-      return;
+    let imgBbUrl = defaultValues.image;
+    if (image) {
+      const imageData = new FormData();
+      imageData.append("image", image);
+      try {
+        const res = await axios.post(
+          `https://api.imgbb.com/1/upload?key=${image_hosting_key}`,
+          imageData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+        imgBbUrl = res?.data?.data?.display_url;
+      } catch (error) {
+        console.error("Image upload failed", error);
+        alert("Image upload failed. Please try again.");
+        return;
+      }
     }
 
-    const imageData = new FormData();
-    imageData.append("image", image);
-    try {
-      const res = await axios.post(
-        `https://api.imgbb.com/1/upload?key=${image_hosting_key}`,
-        imageData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+    const inventoryData = {
+      ...defaultValues,
+      image: imgBbUrl,
+    };
 
-      const imgBbUrl: string = res?.data?.data?.display_url;
+    await updateProduct({ id: _id, payload: inventoryData }).unwrap();
 
-      const inventoryData = {
-        title,
-        category,
-        image: imgBbUrl,
-        price,
-        rating,
-        quantity,
-        description,
-      };
-
-      console.log(inventoryData);
-    } catch (error) {
-      console.error("Image upload failed", error);
-      alert("Image upload failed. Please try again.");
+    if (isSuccess) {
+      toast.success("Product updated successfully");
+      const modal = document.getElementById(`my_modal_${_id}`) as HTMLDialogElement;
+      modal.close();
     }
-
-    const modal = document.getElementById(
-      `my_modal_${id}`
-    ) as HTMLDialogElement;
-    modal.close();
   };
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error loading data.</div>;
+
   return (
     <div className="modal-box">
-      <h3 className="font-bold text-lg">Add a new inventory</h3>
-
+      <h3 className="font-bold text-lg">Edit Inventory</h3>
       <div className="modal-action flex justify-center items-center">
         <button
           className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
           onClick={() => {
-            const dialog = document.getElementById(
-              `my_modal_${id}`
-            ) as HTMLDialogElement;
+            const dialog = document.getElementById(`my_modal_${_id}`) as HTMLDialogElement;
             dialog.close();
           }}
         >
@@ -91,27 +117,39 @@ const EditInventory = (id:string) => {
                 type="text"
                 name="title"
                 className="grow"
-                placeholder=" Title"
+                placeholder="Title"
+                value={defaultValues.title}
+                onChange={handleInputChange}
               />
             </label>
+
+            {/* Category Dropdown */}
             <label className="input input-bordered flex items-center gap-2">
               Category :
-              <input
-                type="text"
+              <select
                 name="category"
                 className="grow"
-                placeholder="Category"
-              />
+                value={defaultValues.category}
+                onChange={handleCategoryChange}
+              >
+                {Object.entries(category).map(([key, value]) => (
+                  <option key={key} value={key}>
+                    {value}
+                  </option>
+                ))}
+              </select>
             </label>
+
             <label className="flex flex-col gap-1">
               <span className="text-sm font-medium">Description:</span>
               <textarea
                 name="description"
                 className="input input-bordered grow resize-none p-5 rounded-md"
                 placeholder="Enter description"
+                value={defaultValues.description}
+                onChange={handleInputChange}
               />
             </label>
-
             <input
               type="file"
               name="image"
@@ -126,6 +164,8 @@ const EditInventory = (id:string) => {
                 step="0.01"
                 className="grow"
                 placeholder="Price"
+                value={defaultValues.price}
+                onChange={handleInputChange}
               />
             </label>
             <label className="input input-bordered flex items-center gap-2">
@@ -136,7 +176,9 @@ const EditInventory = (id:string) => {
                 className="grow"
                 min="0"
                 step="0.01"
-                placeholder=" Quantity"
+                placeholder="Quantity"
+                value={defaultValues.quantity}
+                onChange={handleInputChange}
               />
             </label>
             <label className="input input-bordered flex items-center gap-2">
@@ -148,6 +190,8 @@ const EditInventory = (id:string) => {
                 min="0"
                 step="0.01"
                 placeholder="Rating"
+                value={defaultValues.rating}
+                onChange={handleInputChange}
               />
             </label>
           </div>

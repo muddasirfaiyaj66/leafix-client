@@ -1,15 +1,23 @@
 import { FormEvent } from "react";
 import axios from "axios";
+import { useAddProductMutation } from "../../redux/api/baseApi";
+import { toast } from "sonner";
+import { category } from "../../types/CategoryTpes";
+
 
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
+
 const AddInventory = () => {
+  const [addProduct, { isLoading, isError, isSuccess }] =
+    useAddProductMutation();
+
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const form = event.currentTarget;
 
     const title = (form.elements.namedItem("title") as HTMLInputElement).value;
-    const category = (form.elements.namedItem("category") as HTMLInputElement)
+    const category = (form.elements.namedItem("category") as HTMLSelectElement)
       .value;
     const image = (form.elements.namedItem("image") as HTMLInputElement)
       .files?.[0];
@@ -56,16 +64,15 @@ const AddInventory = () => {
         description,
       };
 
-      console.log(inventoryData);
+      await addProduct(inventoryData).unwrap();
+      toast.success("Product added successfully.");
+      const modal = document.getElementById("my_modal_2") as HTMLDialogElement;
+      modal.close();
     } catch (error) {
-      console.error("Image upload failed", error);
-      alert("Image upload failed. Please try again.");
+      toast.error("Product not added. Please try again. Reason - " + error);
     }
-
-
-    const modal = document.getElementById("my_modal_2") as HTMLDialogElement;
-    modal.close();
   };
+
   return (
     <div className="modal-box">
       <h3 className="font-bold text-lg">Add a new inventory</h3>
@@ -93,15 +100,19 @@ const AddInventory = () => {
                 placeholder=" Title"
               />
             </label>
+
+            {/* Category Dropdown */}
             <label className="input input-bordered flex items-center gap-2">
               Category :
-              <input
-                type="text"
-                name="category"
-                className="grow"
-                placeholder="Category"
-              />
+              <select name="category" className="grow">
+                {Object.entries(category).map(([key, value]) => (
+                  <option key={key} value={key}>
+                    {value}
+                  </option>
+                ))}
+              </select>
             </label>
+
             <label className="flex flex-col gap-1">
               <span className="text-sm font-medium">Description:</span>
               <textarea
@@ -121,8 +132,8 @@ const AddInventory = () => {
               <input
                 type="number"
                 name="price"
-                min='0'
-                step='0.01'
+                min="0"
+                step="0.01"
                 className="grow"
                 placeholder="Price"
               />
@@ -133,8 +144,8 @@ const AddInventory = () => {
                 type="number"
                 name="quantity"
                 className="grow"
-                min='0'
-                step='0.01'
+                min="0"
+                step="0.01"
                 placeholder=" Quantity"
               />
             </label>
@@ -144,8 +155,8 @@ const AddInventory = () => {
                 type="number"
                 name="rating"
                 className="grow"
-                min='0'
-                step='0.01'
+                min="0"
+                step="0.01"
                 placeholder="Rating"
               />
             </label>

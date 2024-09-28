@@ -1,0 +1,86 @@
+
+  
+[class^="number-slide"],
+[class*=" number-slide"] {
+  background: grey;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 50px;
+  color: #fff;
+  font-weight: 500;
+  height: 200px;
+  max-height: 100vh;
+}
+
+  
+  .number-slide1 {
+    background: url('https://i.ibb.co.com/YdfNjNk/41452.jpg') no-repeat center center; 
+    background-size: cover;
+   
+}
+  .number-slide2 {
+    background: url('https://i.ibb.co.com/y58RyYV/2148013646.jpg') no-repeat center center; 
+    background-size: cover;
+ 
+}
+  .number-slide3 {
+    background: url('https://i.ibb.co.com/89VD2Cq/2148223988.jpg') no-repeat center center; 
+    background-size: cover;
+    
+}
+  .number-slide4 {
+    background: url('https://i.ibb.co.com/RQPxgb1/2151022043.jpg') no-repeat center center; 
+    background-size: cover;
+    
+}
+  .number-slide5 {
+    background: url('https://i.ibb.co.com/G9TtxHh/2151022077.jpg') no-repeat center center; 
+    background-size: cover;
+    
+}
+  .number-slide6 {
+    background: url('https://i.ibb.co.com/yqSLFD1/2151486605.jpg') no-repeat center center; 
+    background-size: cover;
+   
+    
+}
+
+  
+
+.wrapper {
+  display: flex;
+  justify-content: center;
+}
+.scene {
+  width: 260px;
+  height: 200px;
+  perspective: 1000px;
+  position: relative;
+}
+.scene .carousel.keen-slider {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  position: absolute;
+  transform: translateZ(-288px);
+  transform-style: preserve-3d;
+}
+.carousel__cell {
+  position: absolute;
+  width: 300px;
+  left: 10px;
+  height: 350px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+
+
+@media screen and (max-width: 640px) {
+  .carousel__cell {
+   
+    width: 180px;
+    height: 200px; 
+    left: 5px;
+  }
+}

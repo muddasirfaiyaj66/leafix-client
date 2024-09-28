@@ -5,9 +5,10 @@ import { Link } from "react-router-dom";
 import EditInventory from "./EditInventory";
 import Swal from "sweetalert2";
 import { toast } from "sonner";
-const ProductListCard = () => {
-    const id = '555' ;
-
+import { useDeleteProductMutation } from "../../redux/api/baseApi";
+const ProductListCard = ({ item }) => {
+  const { _id, title, category, image } = item;
+  const [deleteProduct, { isLoading }] = useDeleteProductMutation();
     const handleDelete = () => {
         Swal.fire({
             title: "Are you sure?",
@@ -19,6 +20,7 @@ const ProductListCard = () => {
             confirmButtonText: "Yes, delete it!"
           }).then((result) => {
             if (result.isConfirmed) {
+             deleteProduct(_id);
               toast.success("Product Deleted successfully");
             }
           });
@@ -32,19 +34,19 @@ const ProductListCard = () => {
           <div className="avatar">
             <div className="mask mask-squircle h-12 w-12">
               <img
-                src="https://i.postimg.cc/FRc7GBr5/133124.jpg"
-                alt="Avatar Tailwind CSS Component"
+                src={image || "https://via.placeholder.com/150"} // Fallback if no image
+                alt={title}
               />
             </div>
           </div>
-            <div className="font-bold">Snake Plant</div>
+            <div className="font-bold">{title}</div>
             
           </div>
         </div>
       </td>
-      <td className=" text-xl">Indoor Plants</td>
+      <td className=" text-xl">{category}</td>
       <td>
-        <Link to="/product/5453">
+        <Link to={`/product/${_id}`}>
           <button className="btn btn-ghost btn-xs lg:btn-md hover:bg-transparent hover:scale-110">
             <TbListDetails className="text-2xl lg:text-3xl text-primary" />
           </button>
@@ -53,13 +55,13 @@ const ProductListCard = () => {
       <td>
         <div className="text-center lg:text-start">
           <button className="btn btn-ghost btn-xs lg:btn-md hover:bg-transparent hover:scale-110" onClick={()=>{
-            const dialog = document.getElementById(`my_modal_${id}`) as HTMLDialogElement;
+            const dialog = document.getElementById(`my_modal_${_id}`) as HTMLDialogElement;
             dialog.showModal();
           }}>
             <CiEdit className=" text-blue-600 text-2xl lg:text-3xl " />
           </button>
-          <dialog id={`my_modal_${id}`} className="modal modal-bottom sm:modal-middle">
-          {EditInventory(id)}
+          <dialog id={`my_modal_${_id}`} className="modal modal-bottom sm:modal-middle">
+          {EditInventory({_id})}
           </dialog>
           <button onClick={handleDelete} className="btn btn-ghost btn-xs lg:btn-md hover:bg-transparent hover:scale-110">
             <MdDeleteOutline className="text-2xl lg:text-3xl text-red-500  " />

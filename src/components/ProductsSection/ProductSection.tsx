@@ -8,9 +8,12 @@ import {
   options,
   OptionType,
 } from "../../utils/ProductSearchUtils/ProductSearchUtils";
+import { useAppDispatch } from "../../redux/hooks";
+import { updateSearchQuery, updateSelectedOption } from "../../redux/features/searchSlice";
 
 const ProductSection = () => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const [selectedOption, setSelectedOption] = useState<OptionType | null>(null);
   const [searchTerm, setSearchTerm] = useState<string>("");
@@ -23,12 +26,14 @@ const ProductSection = () => {
     setSearchTerm(event.target.value);
   };
 
-  // Handle form submission
+
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     console.log("Selected Option:", selectedOption);
     console.log("Search Term:", searchTerm);
+    dispatch(updateSearchQuery(searchTerm));
+    dispatch(updateSelectedOption(selectedOption));
     navigate("/shop");
   };
 

@@ -17,7 +17,7 @@ const PopularCategories = () => {
       });
   }, []);
 
-  console.log(data);
+
 
   return (
     <div className="mt-20">
