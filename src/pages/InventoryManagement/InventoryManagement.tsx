@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Container from "../../components/ui/Container";
 import { useGetProductsQuery } from "../../redux/api/baseApi";
 import AddInventory from "./AddInventory";
@@ -83,7 +84,7 @@ const InventoryManagement = () => {
                 </tr>
               )}
               {data?.products?.length > 0 ? (
-                data.products.map((item) => (
+                data.products.map((item: any) => (
                   <tr key={item._id}>
                     <ProductListCard item={item} />
                   </tr>
@@ -91,7 +92,11 @@ const InventoryManagement = () => {
               ) : (
                 <tr>
                   <td colSpan={4} className="text-center">
-                    <img src="/nodata.png" className="w-14 flex justify-center items-center" alt="" />
+                    <img
+                      src="/nodata.png"
+                      className="w-14 flex justify-center items-center"
+                      alt=""
+                    />
                     <span className="text-3xl text-red-500 font-primary font-bold ml-4">
                       No products found
                     </span>
@@ -102,7 +107,6 @@ const InventoryManagement = () => {
           </table>
         </div>
 
-        {/* Pagination Controls */}
         <div className="flex space-x-1 justify-center mt-4">
           <button
             onClick={handlePrevPage}
@@ -112,7 +116,6 @@ const InventoryManagement = () => {
             Prev
           </button>
 
-          {/* Page Number Buttons */}
           {data &&
             [...Array(Math.ceil(data.meta.totalItems / itemsPerPage))].map(
               (_, index) => (

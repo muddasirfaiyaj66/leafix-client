@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Container from "../../components/ui/Container";
 import { FormEvent, useState, useEffect } from "react";
 import Select from "react-select";
@@ -64,7 +65,7 @@ const Shop = () => {
 
   const handleSelectChange = (option: OptionType | null) => {
     setSelectedOption(option);
-    setCurrentPage(1); // Reset to the first page when category changes
+    setCurrentPage(1); 
   };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -75,7 +76,7 @@ const Shop = () => {
     event.preventDefault();
     dispatch(updateSearchQuery(searchTerm));
     dispatch(updateSelectedOption(selectedOption));
-    setCurrentPage(1); // Reset to the first page on submit
+    setCurrentPage(1); 
   };
 
   return (
@@ -118,10 +119,10 @@ const Shop = () => {
         {isLoading && <div><PacmanLoader color="#046425"/></div>}
         {error && <div className="text-3xl text-red-500 font-primary font-bold ml-4">Error fetching products</div>}
 
-        {/* Products Grid */}
+     
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xxl:grid-cols-4 p-5 gap-5 lg:gap-10">
           {data?.products?.length ? (
-            data.products.map((item) => (
+            data.products.map((item:any) => (
               <ProductsCard item={item} key={item._id} />
             ))
           ) : (
@@ -134,7 +135,7 @@ const Shop = () => {
           )}
         </div>
 
-        {/* Pagination Controls */}
+     
         <div className="flex space-x-1 justify-center bottom-0">
           <button
             onClick={handlePrevPage}
@@ -144,7 +145,7 @@ const Shop = () => {
             Prev
           </button>
 
-          {/* Page Number Buttons */}
+          
           {data && [...Array(Math.ceil(data.meta.totalItems / itemsPerPage))].map((_, index) => (
             <button
               key={index + 1}

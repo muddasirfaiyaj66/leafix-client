@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Link } from "react-router-dom";
 import Container from "../../components/ui/Container";
 import { useAppSelector, useAppDispatch } from "../../redux/hooks";
@@ -16,18 +17,22 @@ const Cart = () => {
     category: '',
   });
 
+
   // Handle loading and error states
   if (isLoading) {
     return <div>Loading...</div>;
   }
 
   if (error) {
-    return <div>Error loading products: {error.message}</div>;
+    console.error("Error loading products:", error);
+    return <div>Error loading products. Please try again later.</div>;
   }
 
   // Calculate the total amount
   const totalAmount = cartItems.reduce((total, item) => {
-    const product = products?.products.find((p) => p._id === item.id); // Use the correct property name
+    const product = products?.products.find((p:any) => p._id === item._id);
+    
+    
     const productTotal = product ? product.price * item.quantity : 0;
     return total + productTotal;
   }, 0);
@@ -37,34 +42,40 @@ const Cart = () => {
     dispatch(removeFromCart(id));
   };
 
-  const handleIncreaseQuantity = (id: string) => {
-    dispatch(increaseQuantity(id));
+  const handleIncreaseQuantity = (id: string, stock: number) => {
+    const cartItem = cartItems.find((item) => item._id === id);
+    if (cartItem && cartItem.quantity < stock) {
+      dispatch(increaseQuantity(id));
+    }
   };
 
   const handleDecreaseQuantity = (id: string) => {
-    dispatch(decreaseQuantity(id));
+    const cartItem = cartItems.find((item) => item._id === id);
+    if (cartItem && cartItem.quantity > 1) {
+      dispatch(decreaseQuantity(id));
+    }
   };
 
   return (
     <div className="min-h-screen mt-28">
       <Container>
         <div className="flex flex-col mx-auto p-6 space-y-4 sm:p-10">
-          <h2 className="text-xl font-semibold">Your cart</h2>
+          <h2 className="text-5xl font-semibold">Your cart</h2>
 
           {cartItems.length === 0 ? (
-            <p>Your cart is empty.</p>
+            <p className="text-red-500 text-4xl text-center ">Your cart is empty.</p>
           ) : (
             <>
               <ul className="flex flex-col divide-y dark:divide-gray-700">
                 {cartItems.map((item) => {
-                  const product = products?.products.find((p) => p._id === item.id);
+                  const product = products?.products.find((p:any) => p._id === item._id);
                   if (!product) return null;
                   return (
-                    <li key={item.id} className="flex flex-col py-6 sm:flex-row sm:justify-between">
+                    <li key={item._id} className="flex flex-col py-6 sm:flex-row sm:justify-between">
                       <div className="flex w-full space-x-2 sm:space-x-4">
                         <img
                           className="flex-shrink-0 object-cover w-20 h-20 dark:border-transparent rounded outline-none sm:w-32 sm:h-32 dark:bg-gray-500"
-                          src={product.image || "https://via.placeholder.com/150"}
+                          src={product.image }
                           alt={product.title}
                         />
                         <div className="flex flex-col justify-between w-full pb-4">
@@ -72,28 +83,29 @@ const Cart = () => {
                             <div className="space-y-1">
                               <h3 className="text-lg font-semibold sm:pr-8">{product.title}</h3>
                               <p className="text-sm dark:text-gray-400">{product.category}</p>
-                              {/* Show quantity and add +/- buttons */}
+                             
                               <div className="flex items-center space-x-2">
                                 <button
                                   type="button"
-                                  onClick={() => handleDecreaseQuantity(item.id)}
+                                  onClick={() => handleDecreaseQuantity(item._id)}
                                   className="px-2 py-1 border rounded-md"
-                                  disabled={item.quantity === 1} // Prevent reducing quantity below 1
+                                  disabled={item.quantity === 1} 
                                 >
                                   -
                                 </button>
                                 <span>{item.quantity}</span>
                                 <button
                                   type="button"
-                                  onClick={() => handleIncreaseQuantity(item.id)}
+                                  onClick={() => handleIncreaseQuantity(item._id, product.quantity)}
                                   className="px-2 py-1 border rounded-md"
+                                  disabled={item.quantity >= product.quantity} 
                                 >
                                   +
                                 </button>
                               </div>
                             </div>
                             <div className="text-right">
-                              {/* Show individual product price */}
+                            
                               <p className="text-lg font-semibold">
                                 ${product.price} x {item.quantity} = ${(product.price * item.quantity).toFixed(2)}
                               </p>
@@ -103,7 +115,7 @@ const Cart = () => {
                             <button
                               type="button"
                               className="flex items-center px-2 py-1 pl-0 space-x-1"
-                              onClick={() => handleRemove(item.id)}
+                              onClick={() => handleRemove(item._id)}
                             >
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"

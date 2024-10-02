@@ -12,7 +12,10 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(baseApi.middleware),
 });
- 
+store.subscribe(() => {
+  const state = store.getState();
+  localStorage.setItem('cartItems', JSON.stringify(state.cartItemReducer.products));
+});
  
  // Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof store.getState>

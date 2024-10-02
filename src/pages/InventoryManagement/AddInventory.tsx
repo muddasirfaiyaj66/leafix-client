@@ -8,7 +8,7 @@ import { category } from "../../types/CategoryTpes";
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
 
 const AddInventory = () => {
-  const [addProduct, { isLoading, isError, isSuccess }] =
+  const [addProduct] =
     useAddProductMutation();
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {

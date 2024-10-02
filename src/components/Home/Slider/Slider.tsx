@@ -32,8 +32,13 @@ const Slider = () => {
   );
 
   return (
+   <div>
+     <div className="ml-6">
+     <h1 className="text-3xl ml- mt-8 lg:text-6xl font-primary font-bold">From <span className="text-primary">Our Garden</span> to Your <span className="text-primary">Doorstep</span></h1>
+     <p className="text-2xl mt-2">Leafix offers a wide range of carefully curated plants, delivered fresh and healthy straight to your home. Whether you're looking for statement pieces or small, easy-care plants, our collection caters to all plant lovers, from novices to seasoned green thumbs.</p>
+     </div>
     <Container>
-      <h1></h1>
+      
       <div className="wrapper">
         <div className="scene my-10">
           <div className="carousel keen-slider" ref={sliderRef}>
@@ -47,6 +52,7 @@ const Slider = () => {
         </div>
       </div>
     </Container>
+   </div>
   );
 };
 
